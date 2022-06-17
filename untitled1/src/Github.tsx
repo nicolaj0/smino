@@ -19,7 +19,7 @@ import {
     Legend,
 } from 'chart.js';
 import {Bar} from 'react-chartjs-2';
-import { Card } from "@mui/material";
+import {Card} from "@mui/material";
 
 const columns: GridColDef[] = [
     {field: 'date', headerName: 'date'},
@@ -82,27 +82,23 @@ export function Todos() {
     };
 
     return (
-        <>
-            <Grid  container spacing={{ xs: 2, md: 3 }} columns={{ xs: 1, sm: 2, md:2 }}>
-                <Grid item xs={2}>
-                    <Box sx={{height: 400, width: '100%'}}>
-                        <DataGrid
-                            rows={gps}
-                            getRowId={(r) => r.date}
-                            columns={columns}
-                            pageSize={5}
-                            rowsPerPageOptions={[5]}
-                            disableSelectionOnClick
-                        />
-                    </Box>
-                </Grid>
-                <Grid item xs={10}>
-                    <Box sx={{height: 400, width: '100%'}}>
-                        {graphData && <Bar options={options} data={graphData}/>}
-                    </Box>
-                </Grid>
-            </Grid>
-        </>
+        <div className="grid mx-auto grid-cols-1 xl:grid-cols-3 gap-4">
+            <Box sx={{height: 400, width: '100%'}}>
+                <DataGrid
+                    rows={gps}
+                    getRowId={(r) => r.date}
+                    columns={columns}
+                    pageSize={5}
+                    rowsPerPageOptions={[5]}
+                    disableSelectionOnClick
+                />
+            </Box>
+
+            <Box className="xl:col-span-2" sx={{height: 400, width: '100%'}}>
+                {graphData && <Bar options={options} data={graphData}/>}
+            </Box>
+
+        </div>
 
 
     )
