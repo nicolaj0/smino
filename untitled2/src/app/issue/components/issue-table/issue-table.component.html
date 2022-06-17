@@ -1,0 +1,30 @@
+<div  *ngIf="issues$ | async as issues">
+  <table mat-table [dataSource]="issues" class="mat-elevation-z8 demo-table">
+    <ng-container matColumnDef="position">
+      <th mat-header-cell *matHeaderCellDef>Nr.</th>
+      <td mat-cell *matCellDef="let element">{{element.id}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="title">
+      <th mat-header-cell *matHeaderCellDef>Nr.</th>
+      <td mat-cell *matCellDef="let element">{{element.title}}</td>
+    </ng-container>
+
+
+    <ng-container matColumnDef="user">
+      <th mat-header-cell *matHeaderCellDef>Zu erledingen von</th>
+      <td mat-cell *matCellDef="let element"><app-user-card [user]="element.user"></app-user-card>>></td>
+    </ng-container>
+
+    <ng-container matColumnDef="fah">
+      <th mat-header-cell *matHeaderCellDef>Fakigkeit</th>
+      <td mat-cell *matCellDef="let element">{{element.date}}</td>
+    </ng-container>
+
+    <
+  </table>
+  <mat-paginator [pageSizeOptions]="[5, 10, 20]"
+                 showFirstLastButtons
+                 aria-label="Select page of periodic elements">
+  </mat-paginator>
+</div>
