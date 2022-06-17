@@ -82,8 +82,8 @@ export function Todos() {
     };
 
     return (
-        <div className="grid mx-auto grid-cols-1 xl:grid-cols-3 gap-4">
-            <Box sx={{height: 400, width: '100%'}}>
+        <div className="m-4 grid grid-flow-row-dense grid-cols-1 xl:grid-cols-3 gap-4">
+            <Box sx={{ width: '100%'}}>
                 <DataGrid
                     rows={gps}
                     getRowId={(r) => r.date}
@@ -94,9 +94,11 @@ export function Todos() {
                 />
             </Box>
 
-            <Box className="xl:col-span-2" sx={{height: 400, width: '100%'}}>
-                {graphData && <Bar options={options} data={graphData}/>}
-            </Box>
+            <Card className="xl:col-span-2">
+                <Box  sx={{ width: '100%'}}>
+                    {graphData && <Bar options={options} data={graphData}/>}
+                </Box>
+            </Card>
 
         </div>
 
