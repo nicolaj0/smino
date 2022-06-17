@@ -4,9 +4,11 @@ import axios from "axios";
 import {format} from 'date-fns'
 import * as _ from "lodash";
 import Box from '@mui/material/Box';
-import { DataGrid, GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
+import {DataGrid, GridColDef, GridValueGetterParams} from '@mui/x-data-grid';
 
-
+import {styled} from '@mui/material/styles';
+import Paper from '@mui/material/Paper';
+import Grid from '@mui/material/Grid';
 import {
     Chart as ChartJS,
     CategoryScale,
@@ -16,11 +18,12 @@ import {
     Tooltip,
     Legend,
 } from 'chart.js';
-import { Bar } from 'react-chartjs-2';
+import {Bar} from 'react-chartjs-2';
+import { Card } from "@mui/material";
 
 const columns: GridColDef[] = [
-    { field: 'date', headerName: 'date'  },
-    { field: 'count', headerName: 'count'},
+    {field: 'date', headerName: 'date'},
+    {field: 'count', headerName: 'count'},
 
 
 ];
@@ -45,6 +48,7 @@ export const options = {
         },
     },
 };
+
 export function Todos() {
 
     let res: any[] = [];
@@ -55,8 +59,8 @@ export function Todos() {
     let gps: any[] = [];
     useEffect(() => {
         // @ts-ignore
-        if (data && _.last(data)?.commit.author.date > '2022-01-01'){
-            setPage(page+1);
+        if (data && _.last(data)?.commit.author.date > '2022-01-01') {
+            setPage(page + 1);
             // @ts-ignore
             setAllData([...allData, ...data]);
         }
@@ -64,44 +68,43 @@ export function Todos() {
     }, [data]);
     gps = allData && _.chain(allData)
         .groupBy((c: any) => format(new Date(c.commit.author.date), 'MM/dd/yyyy'))
-        .map((value, key) => ({ date: key, count: value.length }))
+        .map((value, key) => ({date: key, count: value.length}))
         .value()
     graphData = {
-        labels: gps?.map(e=>e.date),
+        labels: gps?.map(e => e.date),
         datasets: [
             {
                 label: 'Dataset 1',
-                data: gps?.map(f=>f.count),
+                data: gps?.map(f => f.count),
                 backgroundColor: 'rgba(255, 99, 132, 0.5)',
             },
         ],
     };
 
     return (
-        <div>
+        <>
+            <Grid  container spacing={{ xs: 2, md: 3 }} columns={{ xs: 1, sm: 2, md:2 }}>
+                <Grid item xs={2}>
+                    <Box sx={{height: 400, width: '100%'}}>
+                        <DataGrid
+                            rows={gps}
+                            getRowId={(r) => r.date}
+                            columns={columns}
+                            pageSize={5}
+                            rowsPerPageOptions={[5]}
+                            disableSelectionOnClick
+                        />
+                    </Box>
+                </Grid>
+                <Grid item xs={10}>
+                    <Box sx={{height: 400, width: '100%'}}>
+                        {graphData && <Bar options={options} data={graphData}/>}
+                    </Box>
+                </Grid>
+            </Grid>
+        </>
 
-            <h1 className="text-3xl font-bold underline">
-                Hello world!
-            </h1>
 
-            <Box sx={{ height: 400, width: '100%' }}>
-                <DataGrid
-                    rows={gps}
-                    getRowId={(r) => r.date}
-                    columns={columns}
-                    pageSize={5}
-                    rowsPerPageOptions={[5]}
-                    disableSelectionOnClick
-                />
-            </Box>
-            {graphData && <Bar options={options} data={graphData}/>}
-
-            {/*<ul>
-                {gps.map((c: any) => (
-                    <li key={c.date}>{c.date} {c.count}</li>
-                ))}
-            </ul>*/}
-        </div>
     )
 }
 
@@ -118,9 +121,7 @@ export async function get(url: string): Promise<any> {
 }
 
 
-
-
-function useGitgub({page}: {page: number}) {
+function useGitgub({page}: { page: number }) {
     return useQuery(['motifs', page],
         () => get(`https://api.github.com/repos/nicolaj0/Qinto/commits?page=${page}&per_page=50`).then((data) => data));
 
