@@ -51,7 +51,6 @@ export const options = {
 
 export function Todos() {
 
-    let res: any[] = [];
     let graphData: any;
     const [page, setPage] = useState(1);
     const [allData, setAllData] = useState([]);
@@ -82,8 +81,8 @@ export function Todos() {
     };
 
     return (
-        <div className="m-4 grid grid-flow-row-dense grid-cols-1 xl:grid-cols-3 gap-4">
-            <Box sx={{ width: '100%'}}>
+        <div className="m-4 grid  grid-cols-1 xl:grid-cols-3 gap-4">
+            <Box sx={{ width: '100%', height: 500}}>
                 <DataGrid
                     rows={gps}
                     getRowId={(r) => r.date}
@@ -94,11 +93,11 @@ export function Todos() {
                 />
             </Box>
 
-            <Card className="xl:col-span-2">
-                <Box  sx={{ width: '100%'}}>
+            <div className="xl:col-span-2">
+                <Box  sx={{  width: '100%'}}>
                     {graphData && <Bar options={options} data={graphData}/>}
                 </Box>
-            </Card>
+            </div>
 
         </div>
 
